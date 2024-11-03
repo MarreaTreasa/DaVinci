@@ -1,0 +1,11 @@
+# Ignore the specific model file
+model/davi3.0.keras
+
+# Ignore the entire 'folder' directory
+folder/
+
+# Ignore the entire 'test images' directory
+test images/
+
+# Ignore the entire 'uploads' directory
+uploads/
