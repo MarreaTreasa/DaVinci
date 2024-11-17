@@ -1,0 +1,35 @@
+services:
+  - type: web
+    name: food-calorie-predictor
+    env: python
+    buildCommand: "pip install -r requirements.txt"
+    startCommand: "gunicorn app:app"
+    envVars:
+      - key: FLASK_ENV
+        value: "production"
+    disk: 1GB  # Optional, increase if you expect large files
+
+    # Specify any additional environment variables as needed, like the model file path
+    envVars:
+      - key: MODEL_PATH
+        value: "model/davi3.0.keras"
+      - key: UPLOAD_FOLDER
+        value: "uploads"
+
+    # Optional, you can specify other variables if needed
+    # envVars:
+    #   - key: DATABASE_URL
+    #     value: <your-database-url>
+    #   - key: SECRET_KEY
+    #     value: <your-secret-key>
+
+  # If you're using a database or a different service, you can specify it here
+  # Example for Postgres:
+  #   - type: db
+  #     name: food-calorie-db
+  #     database: postgres
+  #     plan: free
+  #     envVars:
+  #       - key: DATABASE_URL
+  #         value: <your-database-url>
+
