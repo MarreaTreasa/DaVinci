@@ -1,51 +1,61 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
+  <head>
+    <meta charset="UTF-8" />
     <title>Food Calorie Predictor</title>
-    <link rel="stylesheet" href="/static/style.css">
-</head>
-<body>
+    <link rel="stylesheet" href="/static/style.css" />
+  </head>
+  <body>
     <div class="container">
-        <h1>So...What's Cooking??</h1>
-        <form id="uploadForm" enctype="multipart/form-data">
-            <input type="file" name="file" id="fileInput" accept="image/*" required>
-            <button type="submit">Predict</button>
-        </form>
-        <div id="result">
-            <h2>Prediction Result</h2>
-            <p id="predictionText"></p>
-            <p id="caloriesText"></p>
-            <img id="uploadedImage" alt="Uploaded Food Image">
-        </div>
+      <h1>So...What's Cooking??</h1>
+      <form id="uploadForm" enctype="multipart/form-data">
+        <input
+          type="file"
+          name="file"
+          id="fileInput"
+          accept="image/*"
+          required
+        />
+        <button type="submit">Predict</button>
+      </form>
+      <div id="result">
+        <h2>Prediction Result</h2>
+        <p id="predictionText"></p>
+        <p id="caloriesText"></p>
+        <img id="uploadedImage" alt="Uploaded Food Image" />
+      </div>
     </div>
 
     <script>
-        document.getElementById("uploadForm").onsubmit = async function(event) {
-            event.preventDefault();
-            const fileInput = document.getElementById("fileInput");
-            const formData = new FormData();
-            formData.append("file", fileInput.files[0]);
+      document.getElementById("uploadForm").onsubmit = async function (event) {
+        event.preventDefault();
+        const fileInput = document.getElementById("fileInput");
+        const formData = new FormData();
+        formData.append("file", fileInput.files[0]);
 
-            const response = await fetch("/predict", {
-                method: "POST",
-                body: formData
-            });
-            const data = await response.json();
+        const response = await fetch("/predict", {
+          method: "POST",
+          body: formData,
+        });
+        const data = await response.json();
 
-            if (data.error) {
-                alert(data.error);
-            } else {
-                // Update the result section with prediction details
-                document.getElementById("predictionText").textContent = `Predicted Food Item: ${data.predicted_class}`;
-                document.getElementById("caloriesText").textContent = `Calories: ${data.calories}`;
-                
-                // Display the uploaded image
-                const uploadedImage = document.getElementById("uploadedImage");
-                uploadedImage.src = `/uploads/${data.image_path}`;
-                uploadedImage.style.display = "block";
-            }
-        };
+        if (data.error) {
+          alert(data.error);
+        } else {
+          // Update the result section with prediction details
+          document.getElementById(
+            "predictionText"
+          ).textContent = `Predicted Food Item: ${data.predicted_class}`;
+          document.getElementById(
+            "caloriesText"
+          ).textContent = `Calories: ${data.calories}`;
+
+          // Display the uploaded image
+          const uploadedImage = document.getElementById("uploadedImage");
+          uploadedImage.src = `/uploads/${data.image_path}`;
+          uploadedImage.style.display = "block";
+        }
+      };
     </script>
-</body>
+  </body>
 </html>
